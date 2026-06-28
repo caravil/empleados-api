@@ -42,8 +42,8 @@ Modificar el archivo `application.properties`:
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/parameta_db
-spring.datasource.username=root
-spring.datasource.password=Root
+spring.datasource.username= tu usuario de mysql
+spring.datasource.password= tu contraseña de mysql
 ```
 
 ## Ejecución del proyecto
