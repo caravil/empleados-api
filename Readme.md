@@ -171,9 +171,3 @@ Las respuestas de error tienen la siguiente estructura:
   }
 }
 ```
-
-## Autor
-
-**Carlos Andrés Sánchez Avilés**
-
-Prueba Técnica - Parameta
