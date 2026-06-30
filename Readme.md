@@ -1,4 +1,4 @@
-# Prueba Técnica Parameta - API de Empleados
+# API de Empleados
 
 ## Descripción
 
