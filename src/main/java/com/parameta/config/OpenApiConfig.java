@@ -17,9 +17,9 @@ public class OpenApiConfig {
                 .info(new Info()
                         .title("Empleados API")
                         .version("1.0")
-                        .description("API REST para la gestión de empleados - Prueba Técnica Parameta")
+                        .description("API REST para la gestión de empleados")
                         .contact(new Contact()
-                                .name("Carlos Andrés Sánchez Avilés")
+                                .name("Tu Nombre")
                                 .email("tu-correo@correo.com")));
     }
 }

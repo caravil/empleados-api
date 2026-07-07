@@ -6,4 +6,5 @@ import com.parameta.dto.response.EmpleadoResponse;
 public interface EmpleadoService {
 
     EmpleadoResponse crearEmpleado(EmpleadoRequest request);
+
 }

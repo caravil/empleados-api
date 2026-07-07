@@ -9,7 +9,6 @@ import com.parameta.repository.EmpleadoRepository;
 import com.parameta.service.EmpleadoService;
 import com.parameta.util.EmpleadoCalculator;
 import com.parameta.validator.EmpleadoValidator;
-
 import org.springframework.stereotype.Service;
 
 @Service
@@ -39,15 +38,20 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 
                 Empleado empleadoGuardado = empleadoRepository.save(empleado);
 
-                String edad = EmpleadoCalculator.calcularEdad(
-                                empleadoGuardado.getFechaNacimiento());
-
-                String tiempoVinculacion = EmpleadoCalculator.calcularTiempoVinculacion(
-                                empleadoGuardado.getFechaVinculacion());
-
-                return EmpleadoMapper.toResponse(
-                                empleadoGuardado,
-                                edad,
-                                tiempoVinculacion);
+                return construirRespuesta(empleadoGuardado);
         }
+
+        private EmpleadoResponse construirRespuesta(Empleado empleado) {
+
+        String edad = EmpleadoCalculator.calcularEdad(
+                empleado.getFechaNacimiento());
+
+        String tiempoVinculacion = EmpleadoCalculator.calcularTiempoVinculacion(
+                empleado.getFechaVinculacion());
+
+        return EmpleadoMapper.toResponse(
+                empleado,
+                edad,
+                tiempoVinculacion);
+        }                
 }
