@@ -77,53 +77,103 @@ Swagger UI:
 http://localhost:8080/swagger-ui/index.html
 ```
 
-OpenAPI JSON:
+## API Documentation
+
+### Swagger UI
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
+### OpenAPI JSON
 
 ```
 http://localhost:8080/v3/api-docs
 ```
 
-## Endpoint Disponible
+---
 
-### Crear Empleado
+# Available Endpoints
+
+| Method | Endpoint | Description | Status |
+|--------|----------|-------------|:------:|
+| POST | `/api/employees` | Create a new employee | ✅ |
+| GET | `/api/employees` | Retrieve all employees | ✅ |
+| GET | `/api/employees/{id}` | Retrieve an employee by id | 🚧 |
+| PUT | `/api/employees/{id}` | Update an employee | 🚧 |
+| DELETE | `/api/employees/{id}` | Delete an employee | 🚧 |
+
+---
+
+# Create Employee
 
 **POST**
 
 ```
-http://localhost:8080/api/empleados
+/api/employees
 ```
 
-### Ejemplo de Request
+### Request
 
 ```json
 {
-  "nombres": "Carlos Andrés",
-  "apellidos": "Sánchez Avilés",
-  "tipoDocumento": "CC",
-  "numeroDocumento": "1234567890",
-  "fechaNacimiento": "1998-05-10",
-  "fechaVinculacion": "2024-01-15",
-  "cargo": "Ingeniero de Sistemas",
-  "salario": 3500000
+  "name": "Carlos",
+  "lastName": "Sanchez",
+  "documentType": "CC",
+  "documentNumber": "1234567890",
+  "dateOfBirth": "1998-05-10",
+  "linkingDate": "2024-01-15",
+  "jobTitle": "Software Engineer",
+  "salary": 3500000
 }
 ```
 
-### Ejemplo de Response
+### Response
 
 ```json
 {
   "id": 1,
-  "nombres": "Carlos Andrés",
-  "apellidos": "Sánchez Avilés",
-  "tipoDocumento": "CC",
-  "numeroDocumento": "1234567890",
-  "fechaNacimiento": "1998-05-10",
-  "fechaVinculacion": "2024-01-15",
-  "cargo": "Ingeniero de Sistemas",
-  "salario": 3500000,
-  "edadActual": "28 años, 1 mes y 16 días",
-  "tiempoVinculacion": "2 años, 5 meses y 11 días"
+  "name": "Carlos",
+  "lastName": "Sanchez",
+  "documentType": "CC",
+  "documentNumber": "1234567890",
+  "dateOfBirth": "1998-05-10",
+  "linkingDate": "2024-01-15",
+  "jobTitle": "Software Engineer",
+  "salary": 3500000,
+  "currentAge": "28 years, 1 month and 16 days",
+  "linkingTime": "2 years and 5 months"
 }
+```
+
+---
+
+# Get All Employees
+
+**GET**
+
+```
+/api/employees
+```
+
+### Response
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Carlos",
+    "lastName": "Sanchez",
+    "documentType": "CC",
+    "documentNumber": "1234567890",
+    "dateOfBirth": "1998-05-10",
+    "linkingDate": "2024-01-15",
+    "jobTitle": "Software Engineer",
+    "salary": 3500000,
+    "currentAge": "28 years, 1 month and 16 days",
+    "linkingTime": "2 years and 5 months"
+  }
+]
 ```
 
 ## Estructura del Proyecto
