@@ -1,5 +1,6 @@
 package com.parameta.service.impl;
 
+import java.util.List;
 import com.parameta.dto.request.EmployeeRequest;
 import com.parameta.dto.response.EmployeeResponse;
 import com.parameta.entity.Employee;
@@ -36,6 +37,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return buildResponse(savedEmployee);
     }
+
+    @Override
+    public List<EmployeeResponse> getAllEmployees() {
+
+        return employeeRepository.findAll()
+                .stream()
+                .map(this::buildResponse)
+                .toList();
+    }
+
+
+
+
 
     private EmployeeResponse buildResponse(Employee employee) {
 
