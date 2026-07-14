@@ -1,38 +1,34 @@
 package com.parameta.validator;
 
-import com.parameta.dto.request.EmpleadoRequest;
+import com.parameta.dto.request.EmployeeRequest;
 import com.parameta.exception.BusinessException;
-import com.parameta.util.EmpleadoCalculator;
+import com.parameta.util.EmployeeCalculator;
 
 import java.time.LocalDate;
 
-public class EmpleadoValidator {
+public class EmployeeValidator {
 
-    private EmpleadoValidator() {
+    private EmployeeValidator() {
     }
 
-    public static void validar(EmpleadoRequest request) {
+    public static void validate(EmployeeRequest request) {
 
-        if (request.getFechaNacimiento()
-                .isAfter(LocalDate.now())) {
+        if (request.getDateOfBirth().isAfter(LocalDate.now())) {
             throw new BusinessException(
                     "La fecha de nacimiento no puede ser posterior a la fecha actual.");
         }
 
-        if (!EmpleadoCalculator
-                .esMayorDeEdad(request.getFechaNacimiento())) {
+        if (!EmployeeCalculator.isAdult(request.getDateOfBirth())) {
             throw new BusinessException(
                     "El empleado debe ser mayor de edad.");
         }
 
-        if (request.getFechaVinculacion()
-                .isAfter(LocalDate.now())) {
+        if (request.getLinkingDate().isAfter(LocalDate.now())) {
             throw new BusinessException(
                     "La fecha de vinculación no puede ser posterior a la fecha actual.");
         }
 
-        if (request.getFechaVinculacion()
-                .isBefore(request.getFechaNacimiento())) {
+        if (request.getLinkingDate().isBefore(request.getDateOfBirth())) {
             throw new BusinessException(
                     "La fecha de vinculación no puede ser anterior a la fecha de nacimiento.");
         }

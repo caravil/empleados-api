@@ -1,9 +1,7 @@
 package com.parameta.controller;
-
-import com.parameta.dto.request.EmpleadoRequest;
-import com.parameta.dto.response.EmpleadoResponse;
-import com.parameta.service.EmpleadoService;
-
+import com.parameta.dto.request.EmployeeRequest;
+import com.parameta.dto.response.EmployeeResponse;
+import com.parameta.service.EmployeeService; 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -15,12 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/empleados")
 @Tag(name = "Empleados", description = "Operaciones relacionadas con empleados")
-public class EmpleadoController {
+public class EmployeeController {
 
-    private final EmpleadoService empleadoService;
+    private final EmployeeService EmployeeService;
 
-    public EmpleadoController(EmpleadoService empleadoService) {
-        this.empleadoService = empleadoService;
+    public EmployeeController(EmployeeService empleadoService) {
+        this.EmployeeService = empleadoService;
     }
 
     @Operation(summary = "Crear empleado", description = "Registra un nuevo empleado y retorna la información calculada del mismo.")
@@ -30,9 +28,8 @@ public class EmpleadoController {
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EmpleadoResponse crearEmpleado(
-            @Valid @RequestBody EmpleadoRequest request) {
-
-        return empleadoService.crearEmpleado(request);
+    public EmployeeResponse createEmployee(
+            @Valid @RequestBody EmployeeRequest request) {
+        return EmployeeService.createEmployee(request);
     }
 }

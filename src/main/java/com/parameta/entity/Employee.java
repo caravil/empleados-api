@@ -6,39 +6,39 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "empleado")
+@Table(name = "employees")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 
-public class Empleado {
+public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String nombres;
+    private String name;
 
     @Column(nullable = false)
-    private String apellidos;
+    private String lastName;
 
     @Column(nullable = false, length = 20)
-    private String tipoDocumento;
+    private String documentType;
 
     @Column(nullable = false, unique = true, length = 30)
-    private String numeroDocumento;
+    private String documentNumber;
 
     @Column(nullable = false)
-    private LocalDate fechaNacimiento;
+    private LocalDate dateOfBirth;
 
     @Column(nullable = false)
-    private LocalDate fechaVinculacion;
+    private LocalDate linkingDate;
 
     @Column(nullable = false)
-    private String cargo;
+    private String jobTitle;
 
     @Column(nullable = false)
-    private Double salario;
+    private Double salary;
 }
