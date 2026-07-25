@@ -2,7 +2,9 @@ package com.parameta.service.impl;
 
 import java.util.List;
 import com.parameta.dto.request.EmployeeRequest;
+import com.parameta.dto.response.EmployeeCreatedResponse;
 import com.parameta.dto.response.EmployeeResponse;
+import com.parameta.dto.response.EmployeeSummaryResponse;
 import com.parameta.entity.Employee;
 import com.parameta.exception.BusinessException;
 import com.parameta.mapper.EmployeeMapper;
@@ -22,11 +24,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeResponse createEmployee(EmployeeRequest request) {
+    public EmployeeCreatedResponse createEmployee(EmployeeRequest request) {
 
         EmployeeValidator.validate(request);
 
-        if (employeeRepository.findByDocumentNumber(request.getDocumentNumber()).isPresent()) {
+        if (employeeRepository
+                .findByDocumentNumber(request.getDocumentNumber())
+                .isPresent()) {
+
             throw new BusinessException(
                     "Ya existe un empleado con ese número de documento.");
         }
@@ -35,21 +40,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Employee savedEmployee = employeeRepository.save(employee);
 
-        return buildResponse(savedEmployee);
+        return EmployeeCreatedResponse.builder()
+                .id(savedEmployee.getId())
+                .message("Employee created successfully")
+                .build();
     }
 
     @Override
-    public List<EmployeeResponse> getAllEmployees() {
+    public List<EmployeeSummaryResponse> getAllEmployees() { {
 
         return employeeRepository.findAll()
-                .stream()
-                .map(this::buildResponse)
-                .toList();
+            .stream()
+            .map(EmployeeMapper::toSummaryResponse)
+            .toList();
+        }
     }
-
-
-
-
 
     private EmployeeResponse buildResponse(Employee employee) {
 
