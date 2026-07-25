@@ -2,7 +2,8 @@ package com.parameta.controller;
 
 import java.util.List;
 import com.parameta.dto.request.EmployeeRequest;
-import com.parameta.dto.response.EmployeeResponse;
+import com.parameta.dto.response.EmployeeCreatedResponse;
+import com.parameta.dto.response.EmployeeSummaryResponse;
 import com.parameta.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -31,8 +32,9 @@ public class EmployeeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EmployeeResponse createEmployee(
+    public EmployeeCreatedResponse createEmployee(
             @Valid @RequestBody EmployeeRequest request) {
+
         return EmployeeService.createEmployee(request);
     }
 
@@ -43,8 +45,7 @@ public class EmployeeController {
     })
 
     @GetMapping
-    public List<EmployeeResponse> getAllEmployees() {
+    public List<EmployeeSummaryResponse> getAllEmployees() {
         return EmployeeService.getAllEmployees();
-    }
-
+        }
 }

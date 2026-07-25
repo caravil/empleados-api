@@ -2,6 +2,7 @@ package com.parameta.mapper;
 
 import com.parameta.dto.request.EmployeeRequest;
 import com.parameta.dto.response.EmployeeResponse;
+import com.parameta.dto.response.EmployeeSummaryResponse;
 import com.parameta.entity.Employee;
 
 public class EmployeeMapper {
@@ -41,5 +42,16 @@ public class EmployeeMapper {
                 .currentAge(currentAge)
                 .employmentDuration(employmentDuration)
                 .build();
+    }
+
+    public static EmployeeSummaryResponse toSummaryResponse(
+        Employee employee) {
+
+        return EmployeeSummaryResponse.builder()
+            .id(employee.getId())
+            .name(employee.getName())
+            .lastNames(employee.getLastName())
+            .jobTitle(employee.getJobTitle())
+            .build();
     }
 }
