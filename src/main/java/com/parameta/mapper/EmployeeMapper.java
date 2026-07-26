@@ -1,6 +1,7 @@
 package com.parameta.mapper;
 
 import com.parameta.dto.request.EmployeeRequest;
+import com.parameta.dto.response.EmployeeDetailResponse;
 import com.parameta.dto.response.EmployeeResponse;
 import com.parameta.dto.response.EmployeeSummaryResponse;
 import com.parameta.entity.Employee;
@@ -45,13 +46,30 @@ public class EmployeeMapper {
     }
 
     public static EmployeeSummaryResponse toSummaryResponse(
-        Employee employee) {
+            Employee employee) {
 
         return EmployeeSummaryResponse.builder()
-            .id(employee.getId())
-            .name(employee.getName())
-            .lastNames(employee.getLastName())
-            .jobTitle(employee.getJobTitle())
-            .build();
+                .id(employee.getId())
+                .name(employee.getName())
+                .lastNames(employee.getLastName())
+                .jobTitle(employee.getJobTitle())
+                .build();
     }
+
+    public static EmployeeDetailResponse toDetailResponse(
+            Employee employee) {
+
+        return EmployeeDetailResponse.builder()
+                .id(employee.getId())
+                .name(employee.getName())
+                .lastName(employee.getLastName())
+                .documentType(employee.getDocumentType())
+                .documentNumber(employee.getDocumentNumber())
+                .dateOfBirth(employee.getDateOfBirth())
+                .linkingDate(employee.getLinkingDate())
+                .jobTitle(employee.getJobTitle())
+                .salary(employee.getSalary())
+                .build();
+    }
+
 }

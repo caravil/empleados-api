@@ -4,6 +4,7 @@ import java.util.List;
 import com.parameta.dto.request.EmployeeRequest;
 import com.parameta.dto.response.EmployeeCreatedResponse;
 import com.parameta.dto.response.EmployeeSummaryResponse;
+import com.parameta.dto.response.EmployeeDetailResponse;
 import com.parameta.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -47,5 +48,16 @@ public class EmployeeController {
     @GetMapping
     public List<EmployeeSummaryResponse> getAllEmployees() {
         return EmployeeService.getAllEmployees();
-        }
+    }
+
+    @Operation(summary = "Obtiene un empleado por ID", description = "Devuelve la información detallada de un empleado.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Empleado encontrado"),
+            @ApiResponse(responseCode = "404", description = "Empleado no encontrado")
+    })
+    @GetMapping("/{id}")
+    public EmployeeDetailResponse getEmployeeById(@PathVariable Long id) {
+
+        return EmployeeService.getEmployeeById(id);
+    }
 }

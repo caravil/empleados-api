@@ -3,10 +3,11 @@ package com.parameta.service.impl;
 import java.util.List;
 import com.parameta.dto.request.EmployeeRequest;
 import com.parameta.dto.response.EmployeeCreatedResponse;
-import com.parameta.dto.response.EmployeeResponse;
 import com.parameta.dto.response.EmployeeSummaryResponse;
+import com.parameta.dto.response.EmployeeDetailResponse;
 import com.parameta.entity.Employee;
 import com.parameta.exception.BusinessException;
+import com.parameta.exception.ResourceNotFoundException;
 import com.parameta.mapper.EmployeeMapper;
 import com.parameta.repository.EmployeeRepository;
 import com.parameta.service.EmployeeService;
@@ -47,26 +48,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeSummaryResponse> getAllEmployees() { {
+    public List<EmployeeSummaryResponse> getAllEmployees() {
+        {
 
-        return employeeRepository.findAll()
-            .stream()
-            .map(EmployeeMapper::toSummaryResponse)
-            .toList();
+            return employeeRepository.findAll()
+                    .stream()
+                    .map(EmployeeMapper::toSummaryResponse)
+                    .toList();
         }
     }
+    @Override
+    public EmployeeDetailResponse getEmployeeById(Long id) {
 
-    private EmployeeResponse buildResponse(Employee employee) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Employee not found with id: " + id));
 
-        String currentAge = EmployeeCalculator.calculateAge(
-                employee.getDateOfBirth());
-
-        String employmentDuration = EmployeeCalculator.calculateEmploymentDuration(
-                employee.getLinkingDate());
-
-        return EmployeeMapper.toResponse(
-                employee,
-                currentAge,
-                employmentDuration);
+        return EmployeeMapper.toDetailResponse(employee);
     }
 }
