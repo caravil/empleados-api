@@ -99,7 +99,7 @@ http://localhost:8080/v3/api-docs
 | POST   | `/api/empleados`      | Create a new employee      |    ✅   |
 | GET    | `/api/empleados`      | Retrieve all employees     |    ✅   |
 | GET    | `/api/empleados/{id}` | Retrieve an employee by ID |    ✅   |
-| PUT    | `/api/empleados/{id}` | Update an employee         |   🚧   |
+| PUT    | `/api/empleados/{id}` | Update an employee         |    ✅   |
 | DELETE | `/api/empleados/{id}` | Delete an employee         |   🚧   |
 
 ---

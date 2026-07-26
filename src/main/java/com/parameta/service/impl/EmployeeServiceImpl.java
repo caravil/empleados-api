@@ -4,6 +4,7 @@ import java.util.List;
 import com.parameta.dto.request.EmployeeRequest;
 import com.parameta.dto.response.EmployeeCreatedResponse;
 import com.parameta.dto.response.EmployeeSummaryResponse;
+import com.parameta.dto.response.EmployeeUpdatedResponse;
 import com.parameta.dto.response.EmployeeDetailResponse;
 import com.parameta.entity.Employee;
 import com.parameta.exception.BusinessException;
@@ -57,6 +58,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                     .toList();
         }
     }
+
     @Override
     public EmployeeDetailResponse getEmployeeById(Long id) {
 
@@ -65,5 +67,36 @@ public class EmployeeServiceImpl implements EmployeeService {
                         "Employee not found with id: " + id));
 
         return EmployeeMapper.toDetailResponse(employee);
+    }
+
+    @Override
+    public EmployeeUpdatedResponse updateEmployee(
+            Long id,
+            EmployeeRequest request) {
+
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Employee not found with id: " + id));
+
+        EmployeeValidator.validate(request);
+
+        employeeRepository.findByDocumentNumber(
+                request.getDocumentNumber())
+                .ifPresent(existingEmployee -> {
+
+                    if (!existingEmployee.getId().equals(id)) {
+                        throw new BusinessException(
+                                "Ya existe otro empleado con ese número de documento.");
+                    }
+                });
+
+        EmployeeMapper.updateEntity(employee, request);
+
+        Employee updatedEmployee = employeeRepository.save(employee);
+
+        return EmployeeUpdatedResponse.builder()
+                .id(updatedEmployee.getId())
+                .message("Employee updated successfully")
+                .build();
     }
 }
