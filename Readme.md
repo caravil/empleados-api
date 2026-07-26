@@ -1,93 +1,92 @@
-# API de Empleados
+# Employee API
 
-## Descripción
+## Description
 
-API REST desarrollada con Spring Boot para el registro de empleados y el cálculo de información derivada, como:
+REST API developed with Spring Boot for employee management.
 
-- Edad actual del empleado.
-- Tiempo de vinculación con la empresa.
+The application currently supports employee creation and retrieval through RESTful endpoints. The project follows a layered architecture based on Controller, Service, Repository, DTO, Entity, Mapper, Validator, and Exception components.
 
-La aplicación expone un endpoint para crear empleados y devuelve la información calculada en la respuesta.
+---
 
+## Technologies
 
-## Tecnologías Utilizadas
+* Java 17
+* Spring Boot 3.5.16
+* Spring Data JPA
+* Hibernate
+* MySQL
+* Maven
+* Lombok
+* Swagger / OpenAPI
 
-- Java 17
-- Spring Boot 3.5.16
-- Spring Data JPA
-- Hibernate
-- MySQL
-- Maven
-- Lombok
-- Swagger / OpenAPI
+---
 
+## Requirements
 
-## Requisitos
+* Java 17 or higher
+* Maven 3.9 or higher
+* MySQL 8 or higher
 
-- Java 17 o superior
-- Maven 3.9 o superior
-- MySQL 8 o superior
+---
 
-## Configuración
+## Configuration
 
-### 1. Crear la base de datos
+### 1. Create the database
 
 ```sql
 CREATE DATABASE parameta_db;
 ```
 
-### 2. Configurar las credenciales
+### 2. Configure database credentials
 
-Modificar el archivo `application.properties`:
+Update the `application.properties` file:
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/parameta_db
-spring.datasource.username= tu usuario de mysql
-spring.datasource.password= tu contraseña de mysql
+spring.datasource.username=your_mysql_user
+spring.datasource.password=your_mysql_password
 ```
 
-## Ejecución del proyecto
+---
 
-### Clonar el proyecto
+## Running the Project
+
+### Clone the repository
 
 ```bash
-git clone <url-del-repositorio>
+git clone <repository-url>
 cd empleados-api
 ```
 
-### Compilar y ejecutar
+### Compile and run
+
+#### Linux / macOS
 
 ```bash
 ./mvnw clean install
 ./mvnw spring-boot:run
 ```
 
-En Windows:
+#### Windows
 
 ```bash
 mvnw.cmd clean install
 mvnw.cmd spring-boot:run
 ```
 
-## Documentación de la API
-
-Swagger UI:
-
-```
-http://localhost:8080/swagger-ui/index.html
-```
+---
 
 ## API Documentation
 
 ### Swagger UI
 
-```
+```text
 http://localhost:8080/swagger-ui/index.html
 ```
 
 ### OpenAPI JSON
 
-```
+```text
 http://localhost:8080/v3/api-docs
 ```
 
@@ -95,13 +94,13 @@ http://localhost:8080/v3/api-docs
 
 # Available Endpoints
 
-| Method | Endpoint | Description | Status |
-|--------|----------|-------------|:------:|
-| POST | `/api/employees` | Create a new employee | ✅ |
-| GET | `/api/employees` | Retrieve all employees | ✅ |
-| GET | `/api/employees/{id}` | Retrieve an employee by id | 🚧 |
-| PUT | `/api/employees/{id}` | Update an employee | 🚧 |
-| DELETE | `/api/employees/{id}` | Delete an employee | 🚧 |
+| Method | Endpoint              | Description                | Status |
+| ------ | --------------------- | -------------------------- | :----: |
+| POST   | `/api/empleados`      | Create a new employee      |    ✅   |
+| GET    | `/api/empleados`      | Retrieve all employees     |    ✅   |
+| GET    | `/api/empleados/{id}` | Retrieve an employee by ID |    ✅   |
+| PUT    | `/api/empleados/{id}` | Update an employee         |   🚧   |
+| DELETE | `/api/empleados/{id}` | Delete an employee         |   🚧   |
 
 ---
 
@@ -109,8 +108,8 @@ http://localhost:8080/v3/api-docs
 
 **POST**
 
-```
-/api/employees
+```text
+/api/empleados
 ```
 
 ### Request
@@ -130,6 +129,60 @@ http://localhost:8080/v3/api-docs
 
 ### Response
 
+**HTTP 201 Created**
+
+```json
+{
+  "id": 1,
+  "message": "Employee created successfully"
+}
+```
+
+---
+
+# Get All Employees
+
+**GET**
+
+```text
+/api/empleados
+```
+
+### Response
+
+**HTTP 200 OK**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Carlos",
+    "lastName": "Sanchez",
+    "jobTitle": "Software Engineer"
+  }
+]
+```
+
+---
+
+# Get Employee by ID
+
+**GET**
+
+```text
+/api/empleados/{id}
+```
+
+### Example
+
+```text
+/api/empleados/1
+```
+
+### Response
+
+**HTTP 200 OK**
+
 ```json
 {
   "id": 1,
@@ -140,45 +193,15 @@ http://localhost:8080/v3/api-docs
   "dateOfBirth": "1998-05-10",
   "linkingDate": "2024-01-15",
   "jobTitle": "Software Engineer",
-  "salary": 3500000,
-  "currentAge": "28 years, 1 month and 16 days",
-  "linkingTime": "2 years and 5 months"
+  "salary": 3500000
 }
 ```
 
 ---
 
-# Get All Employees
+## Project Structure
 
-**GET**
-
-```
-/api/employees
-```
-
-### Response
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Carlos",
-    "lastName": "Sanchez",
-    "documentType": "CC",
-    "documentNumber": "1234567890",
-    "dateOfBirth": "1998-05-10",
-    "linkingDate": "2024-01-15",
-    "jobTitle": "Software Engineer",
-    "salary": 3500000,
-    "currentAge": "28 years, 1 month and 16 days",
-    "linkingTime": "2 years and 5 months"
-  }
-]
-```
-
-## Estructura del Proyecto
-
-```
+```text
 src/main/java/com/parameta
 ├── config
 ├── controller
@@ -187,29 +210,43 @@ src/main/java/com/parameta
 │   └── response
 ├── entity
 ├── exception
+├── mapper
 ├── repository
-└── service
+├── service
+│   └── impl
+├── util
+└── validator
 ```
-La aplicación fue desarrollada siguiendo una arquitectura por capas (N-Tier), separando las responsabilidades de la siguiente manera:
 
-- **Controller:** expone los endpoints REST y recibe las solicitudes HTTP.
-- **Service:** contiene la lógica de negocio y el procesamiento de la información.
-- **Repository:** realiza el acceso a datos mediante Spring Data JPA.
-- **DTO:** define los objetos de entrada y salida de la API.
-- **Entity:** representa las entidades persistidas en la base de datos.
-- **Exception:** centraliza el manejo de excepciones y errores de validación.
-- **Config:** contiene las configuraciones de la aplicación, como OpenAPI/Swagger.
+The application follows a layered architecture, separating responsibilities as follows:
 
+* **Controller:** Exposes REST endpoints and handles HTTP requests.
+* **Service:** Contains business logic and application use cases.
+* **Repository:** Provides data access through Spring Data JPA.
+* **DTO:** Defines request and response objects.
+* **Entity:** Represents the persisted database entities.
+* **Mapper:** Converts entities into DTOs and vice versa.
+* **Validator:** Contains business validation rules.
+* **Exception:** Centralizes exception handling and error responses.
+* **Config:** Contains application configuration, including Swagger/OpenAPI settings.
 
-## Manejo de Errores
+---
 
-La API realiza validaciones sobre:
+## Error Handling
 
-- Campos obligatorios.
-- Salario mayor a cero.
-- Formato de los datos enviados.
+The API validates:
 
-Las respuestas de error tienen la siguiente estructura:
+* Required fields.
+* Positive salary values.
+* Valid employee age.
+* Valid birth date.
+* Valid employment linking date.
+* Duplicate document numbers.
+* Employee existence when querying by ID.
+
+### Validation Error
+
+**HTTP 400 Bad Request**
 
 ```json
 {
@@ -217,7 +254,33 @@ Las respuestas de error tienen la siguiente estructura:
   "status": 400,
   "mensaje": "Error de validación",
   "errores": {
-    "nombres": "Los nombres son obligatorios"
+    "name": "Los nombres son obligatorios"
   }
+}
+```
+
+### Business Error
+
+**HTTP 400 Bad Request**
+
+```json
+{
+  "timestamp": "2026-06-26T14:30:15",
+  "status": 400,
+  "mensaje": "Ya existe un empleado con ese número de documento.",
+  "errores": null
+}
+```
+
+### Employee Not Found
+
+**HTTP 404 Not Found**
+
+```json
+{
+  "timestamp": "2026-06-26T17:12:19",
+  "status": 404,
+  "mensaje": "Employee not found with id: 999",
+  "errores": null
 }
 ```

@@ -1,47 +1,62 @@
 package com.parameta.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
-import com.parameta.dto.response.ErrorResponse;
 import java.time.LocalDateTime;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.parameta.dto.response.ErrorResponse;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(BusinessException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse manejarBusinessException(
-            BusinessException ex) {
+        @ExceptionHandler(BusinessException.class)
+        @ResponseStatus(HttpStatus.BAD_REQUEST)
+        public ErrorResponse manejarBusinessException(
+                BusinessException ex) {
 
-        return ErrorResponse.builder()
-                .timestamp(LocalDateTime.now())
-                .status(HttpStatus.BAD_REQUEST.value())
-                .mensaje(ex.getMessage())
-                .build();
-    }
+                        return ErrorResponse.builder()
+                                .timestamp(LocalDateTime.now())
+                                .status(HttpStatus.BAD_REQUEST.value())
+                                .mensaje(ex.getMessage())
+                                .build();
+        }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse manejarValidaciones(
-            MethodArgumentNotValidException ex) {
+        @ExceptionHandler(ResourceNotFoundException.class)
+        @ResponseStatus(HttpStatus.NOT_FOUND)
+        public ErrorResponse manejarRecursoNoEncontrado(
+                        ResourceNotFoundException ex) {
 
-        Map<String, String> errores = new HashMap<>();
+                return ErrorResponse.builder()
+                                .timestamp(LocalDateTime.now())
+                                .status(HttpStatus.NOT_FOUND.value())
+                                .mensaje(ex.getMessage())
+                                .build();
+        }
 
-        ex.getBindingResult()
-                .getFieldErrors()
-                .forEach(error -> errores.put(
-                        error.getField(),
-                        error.getDefaultMessage()));
+        @ExceptionHandler(MethodArgumentNotValidException.class)
+        @ResponseStatus(HttpStatus.BAD_REQUEST)
+        public ErrorResponse manejarValidaciones(
+                        MethodArgumentNotValidException ex) {
 
-        return ErrorResponse.builder()
-                .timestamp(LocalDateTime.now())
-                .status(HttpStatus.BAD_REQUEST.value())
-                .mensaje("Error de validación")
-                .errores(errores)
-                .build();
-    }
+                Map<String, String> errores = new HashMap<>();
+
+                ex.getBindingResult()
+                                .getFieldErrors()
+                                .forEach(error -> errores.put(
+                                                error.getField(),
+                                                error.getDefaultMessage()));
+
+                return ErrorResponse.builder()
+                                .timestamp(LocalDateTime.now())
+                                .status(HttpStatus.BAD_REQUEST.value())
+                                .mensaje("Error de validación")
+                                .errores(errores)
+                                .build();
+        }
 }
