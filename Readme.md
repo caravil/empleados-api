@@ -4,7 +4,7 @@
 
 REST API developed with Spring Boot for employee management.
 
-The application currently supports employee creation and retrieval through RESTful endpoints. The project follows a layered architecture based on Controller, Service, Repository, DTO, Entity, Mapper, Validator, and Exception components.
+The application currently supports employee creation, retrieval, and update through RESTful endpoints. The project follows a layered architecture based on Controller, Service, Repository, DTO, Entity, Mapper, Validator, and Exception components.
 
 ---
 
@@ -18,6 +18,7 @@ The application currently supports employee creation and retrieval through RESTf
 * Maven
 * Lombok
 * Swagger / OpenAPI
+* JUnit 5, Mockito, MockMvc (testing)
 
 ---
 
@@ -37,14 +38,44 @@ The application currently supports employee creation and retrieval through RESTf
 CREATE DATABASE parameta_db;
 ```
 
-### 2. Configure database credentials
+### 2. Configure environment variables
 
-Update the `application.properties` file:
+Database credentials are **not** stored in `application.properties`. Instead, create a `.env` file in the project root (this file is git-ignored and must never be committed):
+
+```
+DB_USERNAME=your_mysql_user
+DB_PASSWORD=your_mysql_password
+```
+
+`application.properties` reads these through placeholders:
 
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/parameta_db
-spring.datasource.username=your_mysql_user
-spring.datasource.password=your_mysql_password
+spring.datasource.username=${DB_USERNAME:root}
+spring.datasource.password=${DB_PASSWORD}
+```
+
+**Running from the command line:** if your shell doesn't load `.env` automatically, export the variables before running:
+
+```bash
+export DB_USERNAME=your_mysql_user
+export DB_PASSWORD=your_mysql_password
+./mvnw spring-boot:run
+```
+
+**Running from VS Code:** add an `envFile` reference in `.vscode/launch.json`:
+
+```jsonc
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-employeeApiApplication<empleados-api>",
+            "request": "launch",
+            "mainClass": "com.parameta.employeeApiApplication",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
 ```
 
 ---
@@ -76,6 +107,24 @@ mvnw.cmd spring-boot:run
 
 ---
 
+## Testing
+
+The project includes unit and integration tests covering business validation, service logic, and the web layer.
+
+```bash
+./mvnw test
+```
+
+Coverage includes:
+
+* Business validation rules (`EmployeeValidator`)
+* Age and employment duration calculations (`EmployeeCalculator`)
+* Entity-DTO mapping (`EmployeeMapper`)
+* Service layer with mocked repository (`EmployeeServiceImpl`)
+* Controller layer with `MockMvc` (`EmployeeController`)
+
+---
+
 ## API Documentation
 
 ### Swagger UI
@@ -95,12 +144,12 @@ http://localhost:8080/v3/api-docs
 # Available Endpoints
 
 | Method | Endpoint              | Description                | Status |
-| ------ | --------------------- | -------------------------- | :----: |
-| POST   | `/api/empleados`      | Create a new employee      |    ✅   |
-| GET    | `/api/empleados`      | Retrieve all employees     |    ✅   |
-| GET    | `/api/empleados/{id}` | Retrieve an employee by ID |    ✅   |
-| PUT    | `/api/empleados/{id}` | Update an employee         |    ✅   |
-| DELETE | `/api/empleados/{id}` | Delete an employee         |   🚧   |
+| ------ | --------------------- | --------------------------- | :----: |
+| POST   | `/api/empleados`      | Create a new employee       |    ✅   |
+| GET    | `/api/empleados`      | Retrieve all employees      |    ✅   |
+| GET    | `/api/empleados/{id}` | Retrieve an employee by ID  |    ✅   |
+| PUT    | `/api/empleados/{id}` | Update an employee          |    ✅   |
+| DELETE | `/api/empleados/{id}` | Delete an employee          |   🚧   |
 
 ---
 
@@ -268,6 +317,19 @@ The API validates:
   "timestamp": "2026-06-26T14:30:15",
   "status": 400,
   "mensaje": "Ya existe un empleado con ese número de documento.",
+  "errores": null
+}
+```
+
+### Data Integrity Conflict
+
+**HTTP 409 Conflict**
+
+```json
+{
+  "timestamp": "2026-09-12T16:30:15",
+  "status": 409,
+  "mensaje": "El registro entra en conflicto con datos existentes.",
   "errores": null
 }
 ```
