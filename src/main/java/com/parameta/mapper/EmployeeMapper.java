@@ -51,7 +51,7 @@ public class EmployeeMapper {
                 return EmployeeSummaryResponse.builder()
                                 .id(employee.getId())
                                 .name(employee.getName())
-                                .lastNames(employee.getLastName())
+                                .lastName(employee.getLastName())
                                 .jobTitle(employee.getJobTitle())
                                 .build();
         }

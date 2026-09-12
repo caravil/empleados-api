@@ -11,7 +11,7 @@ public class EmployeeSummaryResponse {
 
     private String name;
 
-    private String lastNames;
+    private String lastName;
 
     private String jobTitle;
 }
